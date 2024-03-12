@@ -6,29 +6,38 @@ function ArticlePage() {
   const { article_id } = useParams();
   const [currArticle, setCurrArticle] = useState({});
   const [commentsArray, setCommentsArray] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchArticleByID() {
-      const articleFromAPI = await getArticleByID(article_id);
-      setCurrArticle(articleFromAPI);
+      try {
+        setLoading(true);
+        const articleFromAPI = await getArticleByID(article_id);
+        setCurrArticle(articleFromAPI);
+        setLoading(false);
+      } catch (err) {
+        console.log(err);
+      }
     }
     fetchArticleByID();
-    console.log(currArticle);
   }, []);
 
   return (
     <>
-      <section>
-        <p>{currArticle.author}</p>
-        <p>/{currArticle.topic}</p>
-        <p>{currArticle.title}</p>
-        <p>{currArticle.body}</p>
-        <img src={`${currArticle.article_img_url}`} />
-        <p>{currArticle.votes}</p>
-      </section>
-      <section className="comment-section">
-        
-      </section>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <section>
+            <p>Topic: {currArticle.topic}</p>
+            <p>Author: {currArticle.author}</p>
+            <p>Title: {currArticle.title}</p>
+            <p>{currArticle.body}</p>
+            <img src={`${currArticle.article_img_url}`} />
+            <p>Votes: {currArticle.votes}</p>
+          </section>
+        </>
+      )}
     </>
   );
 }
