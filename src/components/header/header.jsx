@@ -5,7 +5,7 @@ function Header() {
   return (
     <>
       <Link to="/">
-        <h1>NC News</h1>
+        <h1>RTickles</h1>
       </Link>
     </>
   );
