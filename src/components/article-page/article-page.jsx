@@ -6,7 +6,7 @@ function ArticlePage() {
   const { article_id } = useParams();
   const [currArticle, setCurrArticle] = useState({});
   const [commentsArray, setCommentsArray] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loadingArticle, setLoadingArtcle] = useState(true);
 
   useEffect(() => {
     async function fetchArticleByID() {
@@ -14,7 +14,7 @@ function ArticlePage() {
         setLoading(true);
         const articleFromAPI = await getArticleByID(article_id);
         setCurrArticle(articleFromAPI);
-        setLoading(false);
+        setLoadingArtcle(false);
       } catch (err) {
         console.log(err);
       }
@@ -24,7 +24,7 @@ function ArticlePage() {
 
   return (
     <>
-      {loading ? (
+      {loadingArticle ? (
         <p>Loading...</p>
       ) : (
         <>
