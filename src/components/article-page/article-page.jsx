@@ -6,15 +6,15 @@ function ArticlePage() {
   const { article_id } = useParams();
   const [currArticle, setCurrArticle] = useState({});
   const [commentsArray, setCommentsArray] = useState([]);
-  const [loadingArticle, setLoadingArtcle] = useState(true);
+  const [loadingArticle, setLoadingArticle] = useState(true);
 
   useEffect(() => {
     async function fetchArticleByID() {
       try {
-        setLoading(true);
+        setLoadingArticle(true);
         const articleFromAPI = await getArticleByID(article_id);
         setCurrArticle(articleFromAPI);
-        setLoadingArtcle(false);
+        setLoadingArticle(false);
       } catch (err) {
         console.log(err);
       }
@@ -35,6 +35,8 @@ function ArticlePage() {
             <p>{currArticle.body}</p>
             <img src={`${currArticle.article_img_url}`} />
             <p>Votes: {currArticle.votes}</p>
+            <p>Comments: {currArticle.comment_count}</p>
+            <p>Posted: {new Date(currArticle.created_at).toLocaleString()}</p>
           </section>
         </>
       )}
