@@ -12,7 +12,6 @@ async function getArticles(){
 
 async function getArticleByID(articleID){
   const response = await ncNewsAPI.get(`/articles/${articleID}`)
-  console.log(response.data)
   return response.data.article
 }
 
