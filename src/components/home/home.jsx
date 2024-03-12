@@ -5,12 +5,15 @@ import "./home.css"
 
 function Home(){
   const [articlesArray, setArticlesArray] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function fetchArticles(){
       try{
+        setLoading(true)
         const articlesFromAPI = await getArticles()
         setArticlesArray(articlesFromAPI)
+        setLoading(false)
       }
       catch(err){
         console.log(err)

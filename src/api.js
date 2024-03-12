@@ -6,9 +6,14 @@ const ncNewsAPI = axios.create({
 
 async function getArticles(){
   const response = await ncNewsAPI.get("/articles")
-  console.log(response)
   return response.data.articles
 
 }
 
-export {getArticles}
+async function getArticleByID(articleID){
+  const response = await ncNewsAPI.get(`/articles/${articleID}`)
+  console.log(response.data)
+  return response.data.article
+}
+
+export {getArticles, getArticleByID}
