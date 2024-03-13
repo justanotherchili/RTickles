@@ -15,4 +15,9 @@ async function getArticleByID(articleID){
   return response.data.article
 }
 
-export {getArticles, getArticleByID}
+async function getCommentsByArticleID(articleID){
+  const response = await ncNewsAPI.get(`/articles/${articleID}/comments`)
+  return response.data.comments
+}
+
+export {getArticles, getArticleByID, getCommentsByArticleID}
