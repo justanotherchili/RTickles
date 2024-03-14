@@ -26,4 +26,11 @@ async function patchVoteByArticleID(articleID, votes){
   return response.data
 }
 
-export {getArticles, getArticleByID, getCommentsByArticleID, patchVoteByArticleID}
+async function postCommentByArticleID(articleID, comment){
+  console.log(articleID, comment)
+  const response = await ncNewsAPI.post(`/articles/${articleID}/comments`, comment)
+
+  return response.data
+}
+
+export {getArticles, getArticleByID, getCommentsByArticleID, patchVoteByArticleID, postCommentByArticleID}
