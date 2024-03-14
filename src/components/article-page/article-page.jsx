@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   getArticleByID,
   getCommentsByArticleID,
   patchVoteByArticleID,
+  postCommentByArticleID,
 } from "../../api";
 import CommentCard from "../comment-card/comment-card";
 import "./article-page.css";
+import UserContext from "../../contexts/User";
 
 function ArticlePage() {
   const { article_id } = useParams();
@@ -18,6 +20,9 @@ function ArticlePage() {
   const [loadingComments, setLoadingComments] = useState(true);
 
   const [voted, setVoted] = useState(false);
+  const [comment, setComment] = useState("");
+
+  const { currUser } = useContext(UserContext);
 
   async function fetchArticleByID() {
     try {
@@ -45,13 +50,38 @@ function ArticlePage() {
     try {
       const incremenmt = voted ? -1 : 1;
       setVotes((prevVotes) => prevVotes + incremenmt);
-      setVoted(prevVoted => !prevVoted);
+      setVoted((prevVoted) => !prevVoted);
       await patchVoteByArticleID(article_id, { inc_votes: incremenmt });
     } catch (err) {
       setVotes((prevVotes) => prevVotes - incremenmt);
-      setVoted(prevVoted => !prevVoted);
+      setVoted((prevVoted) => !prevVoted);
     }
   }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    try {
+      setCommentsArray([
+        {
+          body: comment,
+          author: currUser.username,
+          votes: 0,
+          created_at: new Date(),
+        },
+        ...commentsArray,
+      ]);
+      console.log(`before post`);
+      const x = await postCommentByArticleID(currArticle.article_id, {
+        body: comment,
+        username: currUser.username,
+      });
+      console.log(x);
+      setComment("");
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   useEffect(() => {
     fetchArticleByID();
     fetchCommentsByArticleID();
@@ -81,16 +111,31 @@ function ArticlePage() {
           </section>
         )}
       </>
-      {loadingComments ? (
-        <p>Loading comments...</p>
-      ) : (
-        <section>
-          {commentsArray.map((comment, index) => (
-            <CommentCard key={index} comment={comment} />
-          ))}
+      <>
+        <section className="post-comment">
+          <form onSubmit={handleSubmit}>
+            <input
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              required
+            />
+          </form>
+          <button onClick={handleSubmit} type="submit">
+            Post
+          </button>
         </section>
-      )}
-      <></>
+      </>
+      <>
+        {loadingComments ? (
+          <p>Loading comments...</p>
+        ) : (
+          <section>
+            {commentsArray.map((comment, index) => (
+              <CommentCard key={index} comment={comment} />
+            ))}
+          </section>
+        )}
+      </>
     </>
   );
 }
