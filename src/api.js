@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const ncNewsAPI = axios.create({
+  // baseURL: "http://localhost:9090/api"
   baseURL: "https://chili-news.onrender.com/api"
 })
 
@@ -20,4 +21,9 @@ async function getCommentsByArticleID(articleID){
   return response.data.comments
 }
 
-export {getArticles, getArticleByID, getCommentsByArticleID}
+async function patchVoteByArticleID(articleID, votes){
+  const response = await ncNewsAPI.patch(`/articles/${articleID}`, votes)
+  return response.data
+}
+
+export {getArticles, getArticleByID, getCommentsByArticleID, patchVoteByArticleID}

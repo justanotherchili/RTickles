@@ -2,8 +2,6 @@ import "./comment-card.css"
 
 function CommentCard(props){
   const {comment} = props
-  console.log(comment)
-
   return(
     <>
     <section className="comment-card">
