@@ -1,36 +1,58 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getArticleByID, getCommentsByArticleID } from "../../api";
+import {
+  getArticleByID,
+  getCommentsByArticleID,
+  patchVoteByArticleID,
+} from "../../api";
 import CommentCard from "../comment-card/comment-card";
+import "./article-page.css";
 
 function ArticlePage() {
   const { article_id } = useParams();
   const [currArticle, setCurrArticle] = useState({});
   const [commentsArray, setCommentsArray] = useState([]);
-  const [loadingArticle, setLoadingArticle] = useState(true);
-  const [loadingComments, setLoadingComments] = useState([]);
+  const [votes, setVotes] = useState(0);
 
+  const [loadingArticle, setLoadingArticle] = useState(true);
+  const [loadingComments, setLoadingComments] = useState(true);
+
+  const [voted, setVoted] = useState(false);
+
+  async function fetchArticleByID() {
+    try {
+      setLoadingArticle(true);
+      const articleFromAPI = await getArticleByID(article_id);
+      setCurrArticle(articleFromAPI);
+      setLoadingArticle(false);
+
+      setVotes(articleFromAPI.votes); //is it bad to put this here if its not really related to fetching the article
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function fetchCommentsByArticleID() {
+    try {
+      setLoadingComments(true);
+      const commentsFromAPI = await getCommentsByArticleID(article_id);
+      setCommentsArray(commentsFromAPI);
+      setLoadingComments(false);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function handleLikeClick(article_id) {
+    try {
+      const incremenmt = voted ? -1 : 1;
+      setVotes((prevVotes) => prevVotes + incremenmt);
+      setVoted(prevVoted => !prevVoted);
+      await patchVoteByArticleID(article_id, { inc_votes: incremenmt });
+    } catch (err) {
+      setVotes((prevVotes) => prevVotes - incremenmt);
+      setVoted(prevVoted => !prevVoted);
+    }
+  }
   useEffect(() => {
-    async function fetchArticleByID() {
-      try {
-        setLoadingArticle(true);
-        const articleFromAPI = await getArticleByID(article_id);
-        setCurrArticle(articleFromAPI);
-        setLoadingArticle(false);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    async function fetchCommentsByArticleID() {
-      try {
-        setLoadingComments(true);
-        const commentsFromAPI = await getCommentsByArticleID(article_id);
-        setCommentsArray(commentsFromAPI);
-        setLoadingComments(false);
-      } catch (err) {
-        console.log(err);
-      }
-    }
     fetchArticleByID();
     fetchCommentsByArticleID();
   }, []);
@@ -39,7 +61,7 @@ function ArticlePage() {
     <>
       <>
         {loadingArticle ? (
-          <p>Loading...</p>
+          <p>Loading articles...</p>
         ) : (
           <section>
             <p>Topic: {currArticle.topic}</p>
@@ -47,14 +69,20 @@ function ArticlePage() {
             <p>Title: {currArticle.title}</p>
             <p>{currArticle.body}</p>
             <img src={`${currArticle.article_img_url}`} />
-            <p>Votes: {currArticle.votes}</p>
+            <p>Votes: {votes}</p>
             <p>Comments: {currArticle.comment_count}</p>
             <p>Posted: {new Date(currArticle.created_at).toLocaleString()}</p>
+            <button
+              onClick={() => handleLikeClick(currArticle.article_id)}
+              className={voted ? "button-clicked" : "button-unclicked"}
+            >
+              Vote
+            </button>
           </section>
         )}
       </>
       {loadingComments ? (
-        <p>Loading...</p>
+        <p>Loading comments...</p>
       ) : (
         <section>
           {commentsArray.map((comment, index) => (
