@@ -131,7 +131,7 @@ function ArticlePage() {
         ) : (
           <section>
             {commentsArray.map((comment, index) => (
-              <CommentCard key={index} comment={comment} />
+              <CommentCard key={index} comment={comment} commentsArray={commentsArray} setCommentsArray={setCommentsArray}/>
             ))}
           </section>
         )}

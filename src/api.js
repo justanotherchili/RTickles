@@ -27,10 +27,13 @@ async function patchVoteByArticleID(articleID, votes){
 }
 
 async function postCommentByArticleID(articleID, comment){
-  console.log(articleID, comment)
   const response = await ncNewsAPI.post(`/articles/${articleID}/comments`, comment)
-
   return response.data
 }
 
-export {getArticles, getArticleByID, getCommentsByArticleID, patchVoteByArticleID, postCommentByArticleID}
+async function deleteCommentByID(commentID){
+  const response = await ncNewsAPI.delete(`/comments/${commentID}`)
+  return response.data
+}
+
+export {getArticles, getArticleByID, getCommentsByArticleID, patchVoteByArticleID, postCommentByArticleID, deleteCommentByID}
