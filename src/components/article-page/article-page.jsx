@@ -70,12 +70,12 @@ function ArticlePage() {
         },
         ...commentsArray,
       ]);
-      console.log(`before post`);
-      const x = await postCommentByArticleID(currArticle.article_id, {
+     
+      await postCommentByArticleID(currArticle.article_id, {
         body: comment,
         username: currUser.username,
       });
-      console.log(x);
+ 
       setComment("");
     } catch (err) {
       console.log(err);
