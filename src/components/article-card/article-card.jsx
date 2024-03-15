@@ -5,7 +5,7 @@ function ArticleCard(props){
 
   return(
     <>
-    <Link to={`/article/${article.article_id}`}>
+    <Link to={`/article/id/${article.article_id}`}>
 
       <section className="article-card">
         <p>Topic: {article.topic}</p>
