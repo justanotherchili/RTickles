@@ -13,7 +13,7 @@ function ArticleCard(props){
         <p>Author:{article.author}</p>
         <img src={`${article.article_img_url}`}/>
         <p>Votes: {article.votes}</p>
-        <p>Comments: {article.comments}</p>
+        <p>Comments: {article.comment_count}</p>
         <p>Posted: {new Date(article.created_at).toLocaleString()}</p>
       </section>
     </Link>
