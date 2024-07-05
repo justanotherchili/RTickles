@@ -2,25 +2,22 @@ nav{
   display: flex;
   justify-content: space-around;
   list-style: none;
-  padding: 0.5rem;
-  align-items: center;
-  font-size: 1rem;
+  padding: 1rem;
 }
 
 .nav-link {
   text-decoration: none;
   color: #ffffff;
-  font-weight: 700;
   padding: 0.5rem;
-  border-radius: 1rem;
+  border-radius: 16px;
   background-color: #0B6E4F;
 }
 
 .nav-link:hover {
-  color: #073B3A;
+  color: #ddb771;
 }
 
 .nav-link.active {
   background-color: #6BBF59;
-  color: #073B3A;
+  color: #073b3a;
 }

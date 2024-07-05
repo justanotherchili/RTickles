@@ -6,7 +6,7 @@ function ArticleCard(props) {
   const { article } = props;
 
   return (
-    <div className="card-container">
+    
       <Link className="article-link" to={`/article/id/${article.article_id}`}>
         <div className="article-card">
           <img src={`${article.article_img_url}`} />
@@ -24,7 +24,7 @@ function ArticleCard(props) {
           </div>
         </div>
       </Link>
-    </div>
+    
   );
 }
 

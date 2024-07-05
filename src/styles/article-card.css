@@ -1,12 +1,4 @@
-.card-container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 100px;
-}
-
 .article-card {
-  
   height: 18rem;
   width: 23rem;
   background-color: #ffffff;
@@ -25,18 +17,13 @@
 .card-content {
   padding: 16px;
   color: #073B3A;
-  text-decoration: none;
 }
 
 .card-content h3 {
   font-size: 18px;
-  overflow: hidden;
   text-overflow: ellipsis; 
   white-space: nowrap;
-  text-decoration: none;
 }
-
-
 
 .article-link{
   font-size: 12px;
