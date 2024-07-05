@@ -1,7 +1,7 @@
-import "./comment-card.css";
-import UserContext from "../../contexts/User";
+import "../styles/comment-card.css";
+import UserContext from "../contexts/User";
 import { useContext } from "react";
-import { deleteCommentByID } from "../../api";
+import { deleteCommentByID } from "../api";
 
 function CommentCard(props) {
   const { comment, commentsArray, setCommentsArray } = props;
@@ -16,7 +16,7 @@ function CommentCard(props) {
    
     } catch (err) {
       setCommentsArray(tempCommentsArray)
-      console.log(err);
+      alert(err);
     }
   }
 

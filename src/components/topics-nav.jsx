@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
-import { getTopics } from "../../api";
+import { NavLink } from "react-router-dom";
+import { getTopics } from "../api";
 import { useEffect, useState } from "react";
-import TopicCard from "../topics-card/topics-card";
 
+import "../styles/topics-nav.css";
 function TopicsNav() {
   const [topicsArray, setTopicsArray] = useState([]);
   async function fetchTopics() {
@@ -10,7 +10,7 @@ function TopicsNav() {
       const topicsFromAPI = await getTopics();
       setTopicsArray(topicsFromAPI);
     } catch (err) {
-      console.log(err);
+      alert(err);
     }
   }
   useEffect(() => {
@@ -18,13 +18,16 @@ function TopicsNav() {
   }, []);
   return (
     <>
-      <h2>Topics</h2>
       <nav>
         {topicsArray.map((topic, index) => {
-          return <TopicCard key={index} topicName={topic.slug} />;
+          return (
+            <NavLink className='nav-link' to={`/articles/topic/${topic.slug}`} key={index}>
+              <li>{topic.slug[0].toUpperCase()+topic.slug.slice(1)}</li>
+            </NavLink>
+          );
         })}
       </nav>
     </>
   );
 }
-export default TopicsNav
+export default TopicsNav;

@@ -5,10 +5,11 @@ import {
   getCommentsByArticleID,
   patchVoteByArticleID,
   postCommentByArticleID,
-} from "../../api";
-import CommentCard from "../comment-card/comment-card";
-import "./article-page.css";
-import UserContext from "../../contexts/User";
+} from "../api";
+import CommentCard from "./comment-card";
+import "../styles/article-page.css";
+import UserContext from "../contexts/User";
+import LoadingIndicator from "./loading-indicator";
 
 function ArticlePage() {
   const { article_id } = useParams();
@@ -33,7 +34,7 @@ function ArticlePage() {
 
       setVotes(articleFromAPI.votes); //is it bad to put this here if its not really related to fetching the article
     } catch (err) {
-      console.log(err);
+      alert(err);
     }
   }
   async function fetchCommentsByArticleID() {
@@ -43,7 +44,7 @@ function ArticlePage() {
       setCommentsArray(commentsFromAPI);
       setLoadingComments(false);
     } catch (err) {
-      console.log(err);
+      alert(err);
     }
   }
   async function handleLikeClick(article_id) {
@@ -78,7 +79,7 @@ function ArticlePage() {
  
       setComment("");
     } catch (err) {
-      console.log(err);
+      alert(err);
     }
   }
 
@@ -91,7 +92,7 @@ function ArticlePage() {
     <>
       <>
         {loadingArticle ? (
-          <p>Loading articles...</p>
+          <LoadingIndicator/>
         ) : (
           <section>
             <p>Topic: {currArticle.topic}</p>
@@ -127,7 +128,7 @@ function ArticlePage() {
       </>
       <>
         {loadingComments ? (
-          <p>Loading comments...</p>
+          <LoadingIndicator/>
         ) : (
           <section>
             {commentsArray.map((comment, index) => (

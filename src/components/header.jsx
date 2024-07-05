@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
-import "./header.css"
+import "../styles/header.css"
 
 function Header() {
   return (
-    <>
-      <Link to="/">
+    <header>
+      <Link to="/" className="header-link">
         <h1>RTickles</h1>
       </Link>
-    </>
+    </header>
   );
 }
 

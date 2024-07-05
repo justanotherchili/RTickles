@@ -1,10 +1,10 @@
 import { useState } from "react";
-import ArticlePage from "./components/article-page/article-page";
-import Header from "./components/header/header";
-import Home from "./components/home/home";
+import ArticlePage from "./components/article-page";
+import Header from "./components/header";
+import Articles from "./components/articles";
 import { Routes, Route } from "react-router-dom";
 import UserContext from "./contexts/User";
-import TopicsNav from "./components/topics-nav/topics-nav";
+import TopicsNav from "./components/topics-nav";
 
 function App() {
   const [currUser, setCurrUser] = useState({
@@ -19,9 +19,9 @@ function App() {
         <Header />
         <TopicsNav/>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Articles />} />
           <Route path="/article/id/:article_id" element={<ArticlePage />} />
-          <Route path="/articles/topic/:topicName" element={<Home/>}/>
+          <Route path="/articles/topic/:topicName" element={<Articles/>}/>
         </Routes>
       </UserContext.Provider>
     </>
