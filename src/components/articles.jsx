@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { getArticles } from "../api";
 import ArticleCard from "./article-card";
-import "../styles/articles.css";
 import { useParams } from "react-router-dom";
 import { sortArticleDesc, sortArticleAsc } from "../utils/sort-by";
 import LoadingIndicator from "./loading-indicator";
+import "../styles/articles.css"
 
 function Articles() {
   const [articlesArray, setArticlesArray] = useState([]);
