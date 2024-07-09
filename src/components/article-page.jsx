@@ -71,12 +71,12 @@ function ArticlePage() {
         },
         ...commentsArray,
       ]);
-     
+
       await postCommentByArticleID(currArticle.article_id, {
         body: comment,
         username: currUser.username,
       });
- 
+
       setComment("");
     } catch (err) {
       alert(err);
@@ -92,7 +92,7 @@ function ArticlePage() {
     <>
       <>
         {loadingArticle ? (
-          <LoadingIndicator/>
+          <LoadingIndicator />
         ) : (
           <section>
             <p>Topic: {currArticle.topic}</p>
@@ -128,11 +128,16 @@ function ArticlePage() {
       </>
       <>
         {loadingComments ? (
-          <LoadingIndicator/>
+          <LoadingIndicator />
         ) : (
           <section>
             {commentsArray.map((comment, index) => (
-              <CommentCard key={index} comment={comment} commentsArray={commentsArray} setCommentsArray={setCommentsArray}/>
+              <CommentCard
+                key={index}
+                comment={comment}
+                commentsArray={commentsArray}
+                setCommentsArray={setCommentsArray}
+              />
             ))}
           </section>
         )}

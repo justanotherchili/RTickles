@@ -21,8 +21,12 @@ function TopicsNav() {
       <nav>
         {topicsArray.map((topic, index) => {
           return (
-            <NavLink className='nav-link' to={`/articles/topic/${topic.slug}`} key={index}>
-              <li>{topic.slug[0].toUpperCase()+topic.slug.slice(1)}</li>
+            <NavLink
+              className="nav-link"
+              to={`/articles/topic/${topic.slug}`}
+              key={index}
+            >
+              <li>{topic.slug[0].toUpperCase() + topic.slug.slice(1)}</li>
             </NavLink>
           );
         })}

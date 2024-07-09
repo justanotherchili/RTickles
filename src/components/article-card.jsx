@@ -6,25 +6,27 @@ function ArticleCard(props) {
   const { article } = props;
 
   return (
-    
-      <Link className="article-link" to={`/article/id/${article.article_id}`}>
-        <div className="article-card">
-          <img src={`${article.article_img_url}`} />
-          <div className="card-content">
-            <h3>{article.title}</h3>
-            <div className="card-author-date">
-              <p>By {article.author}</p>
-              <p>{formatDistanceToNow(new Date(article.created_at), {addSuffix: true})}</p>
-            </div>
-            <p>Votes: {article.votes}</p>
-            <p>Comments: {article.comment_count}</p>
-            <div className="topic-name">
-              <p>{article.topic}</p>
-            </div>
+    <Link className="article-link" to={`/article/id/${article.article_id}`}>
+      <div className="article-card">
+        <img src={`${article.article_img_url}`} />
+        <div className="card-content">
+          <h3>{article.title}</h3>
+          <div className="card-author-date">
+            <p>By {article.author}</p>
+            <p>
+              {formatDistanceToNow(new Date(article.created_at), {
+                addSuffix: true,
+              })}
+            </p>
+          </div>
+          <p>Votes: {article.votes}</p>
+          <p>Comments: {article.comment_count}</p>
+          <div className="topic-name">
+            <p>{article.topic}</p>
           </div>
         </div>
-      </Link>
-    
+      </div>
+    </Link>
   );
 }
 

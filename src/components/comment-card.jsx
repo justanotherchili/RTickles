@@ -6,16 +6,17 @@ import { deleteCommentByID } from "../api";
 function CommentCard(props) {
   const { comment, commentsArray, setCommentsArray } = props;
   const { currUser } = useContext(UserContext);
-  const tempCommentsArray = [...commentsArray]
+  const tempCommentsArray = [...commentsArray];
   async function handleDelete() {
     try {
-      const arrayAfterDelete = commentsArray.filter(currCommmentInArray => currCommmentInArray.comment_id !== comment.comment_id)
-      setCommentsArray(arrayAfterDelete)
-      await deleteCommentByID(comment.comment_id)
-      
-   
+      const arrayAfterDelete = commentsArray.filter(
+        (currCommmentInArray) =>
+          currCommmentInArray.comment_id !== comment.comment_id
+      );
+      setCommentsArray(arrayAfterDelete);
+      await deleteCommentByID(comment.comment_id);
     } catch (err) {
-      setCommentsArray(tempCommentsArray)
+      setCommentsArray(tempCommentsArray);
       alert(err);
     }
   }

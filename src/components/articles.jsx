@@ -63,18 +63,17 @@ function Articles() {
               <h2 className="topic-title">All Articles</h2>
             )}
             <div className="query-menus">
-
-            <select value={sortBy} onChange={handleSortBy}>
-              <option value="created_at">Date</option>
-              <option value="title">Title</option>
-              <option value="votes">Votes</option>
-              <option value="author">Author</option>
-              <option value="comment_count">Comments</option>
-            </select>
-            <select value={sortOrder} onChange={handleSortOrder}>
-              <option value="descending">Descending</option>
-              <option value="ascending">Ascending</option>
-            </select>
+              <select value={sortBy} onChange={handleSortBy}>
+                <option value="created_at">Date</option>
+                <option value="title">Title</option>
+                <option value="votes">Votes</option>
+                <option value="author">Author</option>
+                <option value="comment_count">Comments</option>
+              </select>
+              <select value={sortOrder} onChange={handleSortOrder}>
+                <option value="descending">Descending</option>
+                <option value="ascending">Ascending</option>
+              </select>
             </div>
           </div>
           <ul className="article-list">

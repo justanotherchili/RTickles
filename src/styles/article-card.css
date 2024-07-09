@@ -16,33 +16,32 @@
 
 .card-content {
   padding: 16px;
-  color: #073B3A;
+  color: #073b3a;
 }
 
 .card-content h3 {
   font-size: 18px;
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.article-link{
+.article-link {
   font-size: 12px;
   text-decoration: none;
 }
 
-.topic-name{
+.topic-name {
   display: inline-flex;
   margin-left: 80%;
   margin-bottom: 30%;
   padding: 6px;
-  
-  background-color: #DDB771;
+
+  background-color: #ddb771;
   border-radius: 16px;
   color: #ffffff;
-  
 }
 
-.card-author-date{
+.card-author-date {
   display: flex;
   justify-content: space-between;
 }
