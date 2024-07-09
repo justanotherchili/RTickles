@@ -1,30 +1,88 @@
-#articles-title {
-  padding: 0;
-  margin: 0;
-  font-weight: 800;
-  font-size: 1.5rem;
+.article-page {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-ul {
+.article-topic-label p {
+  display: inline-flex;
+  padding: 6px;
+  background-color: #ddb771;
+  border-radius: 32px;
+  color: #ffffff;
+}
+
+.article-title {
+  font-size: 2rem;
+  margin: 10px 0;
+}
+
+.article-author {
+  color: #555;
+  margin: 0 0 20px 0;
+}
+
+.article-body {
+
+  margin: 20px 0;
+}
+
+.article-image {
+  display: block;
+
+  margin: 20px auto;
+}
+
+.vote-button {
+  color: #ff6663;
+  border: none;
+  margin-bottom: 2rem;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: 2px solid #ff6663; 
+  background-color: transparent; 
+  transition: background-color 0.3s;
+}
+
+.vote-button.button-clicked {
+  background-color: #ff6663; 
+  color: white;
+}
+
+.vote-button:hover {
+  background-color: #ff6663;
+}
+
+.article-comment-count,
+.article-date {
+  margin: 10px 0;
+  color: #777;
+}
+
+.comment-form {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
   margin: 0;
-  padding: 0;
 }
 
-.article-header {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0 2.5rem;
-  justify-content: space-between;
+.comment-input {
+  height: 4rem;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-.query-forms {
-  padding-top: 0.4rem;
+.comment-submit {
+  background-color: #047787;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-#select-sortby {
-  margin-right: 1rem;
+.comment-submit:hover {
+  background-color: #92dce5;
 }
-

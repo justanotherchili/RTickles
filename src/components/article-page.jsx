@@ -10,139 +10,144 @@ import CommentCard from "./comment-card";
 import "../styles/article-page.css";
 import UserContext from "../contexts/User";
 import LoadingIndicator from "./loading-indicator";
+import { formatDistanceToNow } from "date-fns";
 
 function ArticlePage() {
   const { article_id } = useParams();
-  const [currArticle, setCurrArticle] = useState({});
+  const [currArticle, setCurrArticle] = useState(null);
   const [commentsArray, setCommentsArray] = useState([]);
   const [votes, setVotes] = useState(0);
-
   const [loadingArticle, setLoadingArticle] = useState(true);
   const [loadingComments, setLoadingComments] = useState(true);
-
   const [voted, setVoted] = useState(false);
   const [comment, setComment] = useState("");
 
   const { currUser } = useContext(UserContext);
 
-  async function fetchArticleByID() {
-    try {
-      setLoadingArticle(true);
-      const articleFromAPI = await getArticleByID(article_id);
-      setCurrArticle(articleFromAPI);
-      setLoadingArticle(false);
+  useEffect(() => {
+    async function fetchArticle() {
+      try {
+        setLoadingArticle(true);
+        const articleFromAPI = await getArticleByID(article_id);
+        setCurrArticle(articleFromAPI);
+        setVotes(articleFromAPI.votes);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoadingArticle(false);
+      }
+    }
 
-      setVotes(articleFromAPI.votes); //is it bad to put this here if its not really related to fetching the article
-    } catch (err) {
-      alert(err);
+    async function fetchComments() {
+      try {
+        setLoadingComments(true);
+        const commentsFromAPI = await getCommentsByArticleID(article_id);
+        setCommentsArray(commentsFromAPI);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoadingComments(false);
+      }
     }
-  }
-  async function fetchCommentsByArticleID() {
+
+    fetchArticle();
+    fetchComments();
+  }, [article_id]);
+
+  async function handleLikeClick() {
+    const increment = voted ? -1 : 1;
     try {
-      setLoadingComments(true);
-      const commentsFromAPI = await getCommentsByArticleID(article_id);
-      setCommentsArray(commentsFromAPI);
-      setLoadingComments(false);
-    } catch (err) {
-      alert(err);
-    }
-  }
-  async function handleLikeClick(article_id) {
-    try {
-      const incremenmt = voted ? -1 : 1;
-      setVotes((prevVotes) => prevVotes + incremenmt);
+      setVotes((prevVotes) => prevVotes + increment);
       setVoted((prevVoted) => !prevVoted);
-      await patchVoteByArticleID(article_id, { inc_votes: incremenmt });
+      await patchVoteByArticleID(article_id, { inc_votes: increment });
     } catch (err) {
-      setVotes((prevVotes) => prevVotes - incremenmt);
+      console.error(err);
+      setVotes((prevVotes) => prevVotes - increment);
       setVoted((prevVoted) => !prevVoted);
     }
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
+    const newComment = {
+      body: comment,
+      author: currUser.username,
+      votes: 0,
+      created_at: new Date().toISOString(),
+    };
     try {
-      setCommentsArray([
-        {
-          body: comment,
-          author: currUser.username,
-          votes: 0,
-          created_at: new Date(),
-        },
-        ...commentsArray,
-      ]);
-
-      await postCommentByArticleID(currArticle.article_id, {
+      setCommentsArray((prevComments) => [newComment, ...prevComments]);
+      setComment("");
+      await postCommentByArticleID(article_id, {
         body: comment,
         username: currUser.username,
       });
-
-      setComment("");
     } catch (err) {
-      alert(err);
+      console.error(err);
     }
   }
 
-  useEffect(() => {
-    fetchArticleByID();
-    fetchCommentsByArticleID();
-  }, []);
+  if (loadingArticle) {
+    return <LoadingIndicator />;
+  }
 
   return (
-    <>
-      <>
-        {loadingArticle ? (
-          <LoadingIndicator />
-        ) : (
-          <section>
-            <p>Topic: {currArticle.topic}</p>
-            <p>Author: {currArticle.author}</p>
-            <p>Title: {currArticle.title}</p>
-            <p>{currArticle.body}</p>
-            <img src={`${currArticle.article_img_url}`} />
-            <p>Votes: {votes}</p>
-            <p>Comments: {currArticle.comment_count}</p>
-            <p>Posted: {new Date(currArticle.created_at).toLocaleString()}</p>
-            <button
-              onClick={() => handleLikeClick(currArticle.article_id)}
-              className={voted ? "button-clicked" : "button-unclicked"}
-            >
-              Vote
-            </button>
-          </section>
-        )}
-      </>
-      <>
-        <section className="post-comment">
-          <form onSubmit={handleSubmit}>
-            <input
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              required
-            />
-          </form>
-          <button onClick={handleSubmit} type="submit">
-            Post
-          </button>
-        </section>
-      </>
-      <>
-        {loadingComments ? (
-          <LoadingIndicator />
-        ) : (
-          <section>
-            {commentsArray.map((comment, index) => (
-              <CommentCard
-                key={index}
-                comment={comment}
-                commentsArray={commentsArray}
-                setCommentsArray={setCommentsArray}
-              />
-            ))}
-          </section>
-        )}
-      </>
-    </>
+    <section className="article-page">
+      <div className="article-topic-label">
+        <p>{currArticle.topic}</p>
+      </div>
+      <h1 className="article-title">{currArticle.title}</h1>
+      <div>
+
+      <p className="article-author">By {currArticle.author}</p>
+      <p className="article-date">
+        Posted{" "}
+        {formatDistanceToNow(new Date(currArticle.created_at), {
+          addSuffix: true,
+        })}
+      </p>
+      </div>
+      <img
+        className="article-image"
+        src={currArticle.article_img_url}
+        alt="Article"
+      />
+      <p className="article-body">{currArticle.body}</p>
+      <button
+        onClick={handleLikeClick}
+        className={`vote-button ${
+          voted ? "button-clicked" : "button-unclicked"
+        }`}
+      >
+        {votes} Votes
+      </button>
+      <p className="article-comment-count">
+        {currArticle.comment_count} Comments
+      </p>
+      <form onSubmit={handleSubmit} className="comment-form">
+        <input
+          className="comment-input"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          required
+        />
+        <button className="comment-submit" type="submit">
+          Post
+        </button>
+      </form>
+      {loadingComments ? (
+        <LoadingIndicator />
+      ) : (
+        commentsArray.map((comment, index) => (
+          <CommentCard
+            key={index}
+            comment={comment}
+            commentsArray={commentsArray}
+            setCommentsArray={setCommentsArray}
+          />
+        ))
+      )}
+    </section>
   );
 }
 
