@@ -1,0 +1,47 @@
+.comment-card {
+  /* border-radius: 10px; */
+  padding: 10px;
+  margin: 10px 10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  /* position: relative; */
+}
+.comment-card-header{
+  display: flex;
+  justify-content: space-between;
+}
+
+.comment-card p {
+  /* margin: 0; */
+  color: #333;
+}
+
+.comment-card p.author {
+  font-weight: bold;
+}
+
+.comment-card p.votes {
+  color: #666;
+}
+
+.comment-card p.posted {
+  font-size: 0.9rem;
+  color: #999;
+}
+
+.comment-card button {
+  background-color: #ff6663;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 5px 10px;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: background-color 0.3s;
+}
+
+.comment-card button:hover {
+  background-color: #cc524f;
+}
