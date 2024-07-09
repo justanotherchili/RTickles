@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import {
   getArticleByID,
@@ -21,8 +21,10 @@ function ArticlePage() {
   const [loadingComments, setLoadingComments] = useState(true);
   const [voted, setVoted] = useState(false);
   const [comment, setComment] = useState("");
+  const [commentBoxActive, setCommentBoxActive] = useState(false);
 
   const { currUser } = useContext(UserContext);
+  const commentInputRef = useRef(null);
 
   useEffect(() => {
     async function fetchArticle() {
@@ -87,32 +89,43 @@ function ArticlePage() {
     }
   }
 
+  const handleCommentBoxClick = () => {
+    setCommentBoxActive(true);
+  };
+
+  const handleCommentInputChange = (e) => {
+    setComment(e.target.value);
+  };
+
+  const handleBlur = () => {
+    if (comment.trim() === "") {
+      setCommentBoxActive(false);
+    }
+  };
+
   if (loadingArticle) {
     return <LoadingIndicator />;
   }
 
   return (
     <section className="article-page">
-      <div className="article-topic-label">
-        <p>{currArticle.topic}</p>
-      </div>
-      <h1 className="article-title">{currArticle.title}</h1>
-      <div>
-
-      <p className="article-author">By {currArticle.author}</p>
-      <p className="article-date">
-        Posted{" "}
-        {formatDistanceToNow(new Date(currArticle.created_at), {
-          addSuffix: true,
-        })}
-      </p>
+      <p className="article-page-topic-label">{currArticle.topic}</p>
+      <h1 className="article-page-title">{currArticle.title}</h1>
+      <div className="article-page-header">
+        <p className="article-page-author">By {currArticle.author}</p>
+        <p className="article-page-date">
+          Posted {" "}
+          {formatDistanceToNow(new Date(currArticle.created_at), {
+            addSuffix: true,
+          })}
+        </p>
       </div>
       <img
-        className="article-image"
+        className="article-page-image"
         src={currArticle.article_img_url}
         alt="Article"
       />
-      <p className="article-body">{currArticle.body}</p>
+      <p className="article-page-body">{currArticle.body}</p>
       <button
         onClick={handleLikeClick}
         className={`vote-button ${
@@ -121,19 +134,29 @@ function ArticlePage() {
       >
         {votes} Votes
       </button>
-      <p className="article-comment-count">
+      <p className="article-page-comment-count">
         {currArticle.comment_count} Comments
       </p>
-      <form onSubmit={handleSubmit} className="comment-form">
-        <input
-          className="comment-input"
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          required
-        />
-        <button className="comment-submit" type="submit">
-          Post
-        </button>
+      <form onSubmit={handleSubmit}>
+        <div
+          className={`comment-input-container ${
+            commentBoxActive ? "active" : ""
+          }`}
+          onClick={handleCommentBoxClick}
+        >
+          <textarea
+            className="comment-input"
+            value={comment}
+            onChange={handleCommentInputChange}
+            onBlur={handleBlur}
+            placeholder="Add a comment..."
+          />
+          {commentBoxActive && (
+            <button className="comment-submit" type="submit">
+              Post
+            </button>
+          )}
+        </div>
       </form>
       {loadingComments ? (
         <LoadingIndicator />

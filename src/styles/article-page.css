@@ -4,7 +4,7 @@
   margin: 0 auto;
 }
 
-.article-topic-label p {
+.article-page-topic-label {
   display: inline-flex;
   padding: 6px;
   background-color: #ddb771;
@@ -12,41 +12,45 @@
   color: #ffffff;
 }
 
-.article-title {
+.article-page-title {
   font-size: 2rem;
-  margin: 10px 0;
 }
 
-.article-author {
+.article-page-header {
+  display: flex;
+  justify-content: space-between;
   color: #555;
-  margin: 0 0 20px 0;
 }
 
-.article-body {
+.article-page-image {
+  display: flex;
+  margin: 20px auto;
+}
 
+.article-page-body {
   margin: 20px 0;
 }
 
-.article-image {
-  display: block;
 
-  margin: 20px auto;
+.article-page-comment-count{
+  margin: 10px 5px;
+  color: #555;
 }
 
 .vote-button {
   color: #ff6663;
   border: none;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 32px;
   cursor: pointer;
-  outline: 2px solid #ff6663; 
-  background-color: transparent; 
+  outline: 2px solid #ff6663;
+  background-color: transparent;
   transition: background-color 0.3s;
 }
 
 .vote-button.button-clicked {
-  background-color: #ff6663; 
+  background-color: #ff6663;
   color: white;
 }
 
@@ -54,31 +58,43 @@
   background-color: #ff6663;
 }
 
-.article-comment-count,
-.article-date {
-  margin: 10px 0;
-  color: #777;
+
+.comment-input-container {
+  display: flex;
+  align-items: center;
+  position: relative;
 }
 
-.comment-form {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
+.comment-input-container.active .comment-input {
+  height: 6rem;
+  border-radius: 20px;
 }
 
 .comment-input {
-  height: 4rem;
+  font-size: 1rem;
+  height: 1.5rem;
+  width: 100%;
   margin-bottom: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 32px;
+  padding: 15px;
+ 
+  resize: none;
+  transition: height 0.3s;
+  overflow-wrap: break-word;
+  overflow: hidden;
 }
 
+
 .comment-submit {
+  position: absolute;
+  bottom: 20px;
+  right: 10px;
   background-color: #047787;
   color: #fff;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+  padding: 0.5rem 20px;
+  border-radius: 32px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
@@ -86,3 +102,4 @@
 .comment-submit:hover {
   background-color: #92dce5;
 }
+
